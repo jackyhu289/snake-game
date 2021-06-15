@@ -40,7 +40,7 @@ public class Board extends JPanel {
 		g.drawImage(this.apple, 0, 0, 600, 600, null);
 	}
 	
-	private void loadImages() {	
+	private void loadImages() {
 		this.grid = new ImageIcon("img/test.png").getImage();
 		this.apple = new ImageIcon("img/apple.png").getImage();
 	}
