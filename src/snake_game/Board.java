@@ -10,9 +10,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Board extends JPanel {
+// For keyboard events
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
+
+public class Board extends JPanel implements ActionListener {
 	
 	// Constant variables
+	private int board[][];
 	public final int BOARD_WIDTH = 600;
 	public final int BOARD_HEIGHT = 600;
 	
@@ -24,29 +33,46 @@ public class Board extends JPanel {
 	private Image grid;
 	private Image apple;
 	
+	// Store the snakes position
+	private int posX;
+	private int posY;
+	
 	public Board() {
+		this.board = new int[GRID_LENGTH][GRID_WIDTH];
 		// Load images
 		this.loadImages();
 		
 		// Initialize the board
-		initBoard();
+		this.initBoard();
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		g.drawImage(this.grid, 0, 0, 600, 600, null);
-		g.drawImage(this.apple, 0, 0, 600, 600, null);
+		g.drawImage(this.grid, 0, 0, BOARD_WIDTH, BOARD_HEIGHT, null);
 	}
 	
 	private void loadImages() {
-		this.grid = new ImageIcon("img/test.png").getImage();
+		this.grid = new ImageIcon("img/grid.png").getImage();
 		this.apple = new ImageIcon("img/apple.png").getImage();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	}
+	
+	private class TAdapter extends KeyAdapter {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int key = e.getKeyCode();
+			System.out.println("KEY PRESSED");
+		}
+		
 	}
 	
 	// Sets all of the board details for display
 	private void initBoard() {
-		
+		addKeyListener(new TAdapter());
 	}
 }

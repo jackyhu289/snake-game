@@ -2,12 +2,12 @@ package snake_game;
 
 import javax.swing.ImageIcon;
 
-public class SpeedAlter extends Modifier {
+public class SpeedModifier extends Modifier {
 	
-	SpeedAlter() {
+	SpeedModifier() {
 		this.icon = new ImageIcon("img/alarm-clock.png").getImage();
 	}
-	public void modify() {
+	public void modify(Snake snake, Board board) {
 		
 	}
 }

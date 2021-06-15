@@ -5,12 +5,15 @@ import snake_game.Board;
 import javax.swing.JFrame;
 import java.awt.EventQueue;
 
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+
 // The Main class will use the functions of JFrame
-public class Main extends JFrame {
+public class Application extends JFrame implements KeyListener {
 	// Global constants
 	final String GAME_TITLE = "Snake game";
 	
-	public Main() {
+	public Application() {
 		// Initialize and display the user interface
 		Board board = new Board();
 		this.add(board);
@@ -28,11 +31,23 @@ public class Main extends JFrame {
 		
 		// If null is passed, window will appear in center of screen
 		this.setLocationRelativeTo(null);
+		
+		this.addKeyListener(this);
+	}
+	
+	public void keyPressed(KeyEvent e) {
+		System.out.println("test");
+	}
+	public void keyReleased(KeyEvent e) {
+		System.out.println("test");
+	}
+	public void keyTyped(KeyEvent e) {
+		System.out.println("test");
 	}
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
-			Main ex = new Main();
+			Application ex = new Application();
 			ex.setVisible(true);
 		});
 	}

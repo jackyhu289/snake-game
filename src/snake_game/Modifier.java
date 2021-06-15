@@ -5,5 +5,5 @@ import java.awt.Image;
 public abstract class Modifier {
 	protected Image icon;
 	
-	public abstract void modify();
+	public abstract void modify(Snake snake, Board board);
 }
