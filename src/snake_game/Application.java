@@ -18,12 +18,8 @@ public class Application extends JFrame implements KeyListener, ActionListener {
 	
 	private final String GAME_TITLE = "Snake game";
 	private Board board;
-	private int snakeMoveTimeDelay;
 	
 	public Application() {
-		// Set the default time delay to 500 milliseconds
-		snakeMoveTimeDelay = 500;
-		
 		// Initialize and display the user interface
 		this.board = new Board();
 		this.add(board);

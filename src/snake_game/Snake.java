@@ -6,11 +6,9 @@ import java.awt.Color;
 
 // We will represent the snake using a linked list
 public class Snake {
-	// The first element will be the tail, and the last element will be the head
+	// The first element will be the end, and the last element will be the head
 	private LinkedList<SnakeBodyPart> snakeBody;
 	private Color colour;
-	private int speed;
-	
 	private Direction direction;
 	
 	// Flags representing the snake's direction
@@ -22,7 +20,6 @@ public class Snake {
 	public Snake() {
 		this.snakeBody = new LinkedList<>();
 		this.colour = Color.YELLOW;
-		this.speed = 0;
 		
 		// TESTING, MAKE SURE TO REMOVE LATER!!!!!
 		this.snakeBody.addLast(new SnakeBodyPart(0, 0));
@@ -41,29 +38,26 @@ public class Snake {
 		int headCol = this.snakeBody.getLast().getCol();
 		int headRow = this.snakeBody.getLast().getRow();
 		
+		// Remove the end of the snake
 		this.snakeBody.removeFirst();
 
 		switch(this.direction)
 		{
 			case UP:
-				this.snakeBody.addLast(new SnakeBodyPart(headCol - 1, headRow));
-				break;
-			case DOWN:
-				this.snakeBody.addLast(new SnakeBodyPart(headCol + 1, headRow));
-				break;
-			case LEFT:
 				this.snakeBody.addLast(new SnakeBodyPart(headCol, headRow - 1));
 				break;
-			case RIGHT:
+			case DOWN:
 				this.snakeBody.addLast(new SnakeBodyPart(headCol, headRow + 1));
+				break;
+			case LEFT:
+				this.snakeBody.addLast(new SnakeBodyPart(headCol - 1, headRow));
+				break;
+			case RIGHT:
+				this.snakeBody.addLast(new SnakeBodyPart(headCol + 1, headRow));
 				break;
 		}
 	}
 	
-	// Setters
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
 	public void setDirection(int keystrokeAscii) {
 		// If player presses w or the "up" arrow key, set direction to up
 		if (keystrokeAscii == 87 || keystrokeAscii == 38) this.direction = Direction.UP;
@@ -78,9 +72,16 @@ public class Snake {
 		else if (keystrokeAscii == 65 || keystrokeAscii == 37) this.direction = Direction.LEFT;
 	}
 	
+	// Increases the snake length by 1
+	public void increaseSnakeLength() {
+		SnakeBodyPart secondLastBodyPart = this.snakeBody.get(1);
+		SnakeBodyPart lastBodyPart = this.snakeBody.get(0);
+		
+		
+	}
+	
 	// Getters
 	public LinkedList<SnakeBodyPart> getSnakeBody() { return this.snakeBody; }
-	public int getSpeed() { return this.speed; }
 	public Color getColour() { return this.colour; }
 	public int getHeadCol() { return this.snakeBody.getLast().getCol(); }
 	public int getHeadRow() { return this.snakeBody.getLast().getRow(); }
