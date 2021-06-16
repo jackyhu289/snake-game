@@ -1,26 +1,27 @@
 package snake_game;
 
-import snake_game.Board;
-
 import javax.swing.JFrame;
 import java.awt.EventQueue;
 
 // For keyboard events
 import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+// Timer events
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+
 // The Main class will use the functions of JFrame
-public class Application extends JFrame implements KeyListener {
+public class Application extends JFrame implements KeyListener, ActionListener {
 	
-	// Global constants
-	final String GAME_TITLE = "Snake game";
+	private final String GAME_TITLE = "Snake game";
+	private Board board;
 	
 	public Application() {
-		// Declare the snake object
-		Snake snake = new Snake();
-		
 		// Initialize and display the user interface
-		Board board = new Board();
+		this.board = new Board();
 		this.add(board);
 		
 		// Set the dimensions of the board display
@@ -40,14 +41,28 @@ public class Application extends JFrame implements KeyListener {
 		this.addKeyListener(this);
 	}
 	
-	public void keyPressed(KeyEvent e) {
-		System.out.println("test");
+	@Override
+	public void keyPressed(KeyEvent keystroke) {
+		System.out.println(keystroke.getKeyCode());
+		int ascii = keystroke.getKeyCode();
+		
+		// Update the snake direction passing the keystroke ASCII
+		this.board.changeSnakeDirection(ascii);
 	}
+	
+	/*
+	 * Note - The functions keyReleased and keyTyped must be declared otherwise we get an error.
+	 * These functions will be empty.
+	*/
 	public void keyReleased(KeyEvent e) {
-		System.out.println("test");
+		// Do nothing here
 	}
 	public void keyTyped(KeyEvent e) {
-		System.out.println("test");
+		// Do nothing here
+	}
+	
+	private void moveSnake() {
+		Timer timer = new Timer(1000, this);
 	}
 	
 	public static void main(String[] args) {
@@ -55,5 +70,11 @@ public class Application extends JFrame implements KeyListener {
 			Application ex = new Application();
 			ex.setVisible(true);
 		});
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

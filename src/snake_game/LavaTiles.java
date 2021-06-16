@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 
 public class LavaTiles extends Modifier {
 	
-	LavaTiles() {
+	public LavaTiles() {
 		this.icon = new ImageIcon("img/lava-tile.png").getImage();
 	}
 	
