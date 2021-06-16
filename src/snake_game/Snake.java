@@ -11,10 +11,6 @@ public class Snake {
 	private Color colour;
 	private int speed;
 	
-	// Store the snakes position
-	private int posX;
-	private int posY;
-	
 	private Direction direction;
 	
 	// Flags representing the snake's direction
@@ -28,13 +24,13 @@ public class Snake {
 		this.colour = Color.YELLOW;
 		this.speed = 0;
 		
-		this.posX = 5;
-		this.posY = 5;
-		
 		// TESTING, MAKE SURE TO REMOVE LATER!!!!!
 		this.snakeBody.addLast(new SnakeBodyPart(0, 0));
 		this.snakeBody.addLast(new SnakeBodyPart(0, 1));
 		this.snakeBody.addLast(new SnakeBodyPart(0, 2));
+		this.snakeBody.addLast(new SnakeBodyPart(0, 3));
+		this.snakeBody.addLast(new SnakeBodyPart(0, 4));
+		this.snakeBody.addLast(new SnakeBodyPart(0, 5));
 		
 		// DEFAULT
 		this.direction = Direction.DOWN;
@@ -46,7 +42,7 @@ public class Snake {
 		int headRow = this.snakeBody.getLast().getRow();
 		
 		this.snakeBody.removeFirst();
-		System.out.println(this.direction);
+
 		switch(this.direction)
 		{
 			case UP:
@@ -68,12 +64,6 @@ public class Snake {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	public void setPosX(int posX) {
-		this.posX = posX;
-	}
-	public void setPosY(int posY) {
-		this.posY = posY;
-	}
 	public void setDirection(int keystrokeAscii) {
 		// If player presses w or the "up" arrow key, set direction to up
 		if (keystrokeAscii == 87 || keystrokeAscii == 38) this.direction = Direction.UP;
@@ -86,17 +76,14 @@ public class Snake {
 		
 		// If player presses a or the "left" arrow key, set direction to left
 		else if (keystrokeAscii == 65 || keystrokeAscii == 37) this.direction = Direction.LEFT;
-	
-		// Move the snake
-		this.move();
 	}
 	
 	// Getters
 	public LinkedList<SnakeBodyPart> getSnakeBody() { return this.snakeBody; }
 	public int getSpeed() { return this.speed; }
-	public int getPosX() { return this.posX; }
-	public int getPosY() { return this.posY; }
 	public Color getColour() { return this.colour; }
+	public int getHeadCol() { return this.snakeBody.getLast().getCol(); }
+	public int getHeadRow() { return this.snakeBody.getLast().getRow(); }
 	
 	public int length() { return this.snakeBody.size(); }
 }

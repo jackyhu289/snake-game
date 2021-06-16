@@ -18,8 +18,12 @@ public class Application extends JFrame implements KeyListener, ActionListener {
 	
 	private final String GAME_TITLE = "Snake game";
 	private Board board;
+	private int snakeMoveTimeDelay;
 	
 	public Application() {
+		// Set the default time delay to 500 milliseconds
+		snakeMoveTimeDelay = 500;
+		
 		// Initialize and display the user interface
 		this.board = new Board();
 		this.add(board);
@@ -43,11 +47,10 @@ public class Application extends JFrame implements KeyListener, ActionListener {
 	
 	@Override
 	public void keyPressed(KeyEvent keystroke) {
-		System.out.println(keystroke.getKeyCode());
 		int ascii = keystroke.getKeyCode();
 		
 		// Update the snake direction passing the keystroke ASCII
-		this.board.changeSnakeDirection(ascii);
+		this.board.moveSnake(ascii);
 	}
 	
 	/*
@@ -61,10 +64,6 @@ public class Application extends JFrame implements KeyListener, ActionListener {
 		// Do nothing here
 	}
 	
-	private void moveSnake() {
-		Timer timer = new Timer(1000, this);
-	}
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			Application ex = new Application();
@@ -74,7 +73,6 @@ public class Application extends JFrame implements KeyListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		//super().actionPerformed(e);
 	}
 }

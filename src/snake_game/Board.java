@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import java.util.Random;
+
 // maybe use JLabel to display images
 
 public class Board extends JPanel {
@@ -32,10 +34,14 @@ public class Board extends JPanel {
 	
 	private Snake snake;
 	
+	// Random number generation
+	private Random rand;
+	
 	public Board() {
-		this.grid = new JPanel[ROW_COUNT][COLUMN_COUNT];
+		this.grid = new JPanel[COLUMN_COUNT][ROW_COUNT];
 		
 		this.snake = new Snake();
+		this.rand = new Random();
 		
 		// Load images
 		this.loadImages();
@@ -47,6 +53,9 @@ public class Board extends JPanel {
 		
 		// Display the snake
 		this.displaySnake();
+		
+		// Generate the apple
+		this.placeApple();
 	}
 	
 	// This function will allow for all of the drawing and display
@@ -57,8 +66,7 @@ public class Board extends JPanel {
 	
 	// This function loads all of the image icons
 	private void loadImages() {
-		//this.grid = new ImageIcon("img/grid.png").getImage();
-		//this.apple = new ImageIcon("img/apple.png").getImage();
+		this.appleImage = new ImageIcon("img/apple.png").getImage();
 	}
 	
 	// This function displays the grid for the snake
@@ -82,6 +90,7 @@ public class Board extends JPanel {
 		}
 	}
 	
+	// Displays the snake onto the grid
 	private void displaySnake() {
 		for (int c = 0; c < COLUMN_COUNT; ++c) {
 			for (int r = 0; r < ROW_COUNT; ++r) {
@@ -105,12 +114,37 @@ public class Board extends JPanel {
 	private void initBoard() {
 	}
 	
-	
-	public void changeSnakeDirection(int keystrokeAscii) {
-		// Call the snake method, only so we can access the direction flags
+	public void moveSnake(int keystrokeAscii) {
 		this.snake.setDirection(keystrokeAscii);
+		this.snake.move();
 		
-		// Move the snake
-		this.displaySnake();
+		// Verify the snake boundaries
+		int headCol = this.snake.getHeadCol();
+		int headRow = this.snake.getHeadRow();
+		
+		if (headCol < 0 || headCol >= this.COLUMN_COUNT || headRow < 0 || headRow >= this.ROW_COUNT) {
+			System.out.println("fail");
+		} else {
+			this.displaySnake();
+		}
+	}
+	
+	private void placeApple() {
+		// Select a random cell to place the apple in
+		// Choose a random number between 0 and (row count) - 1, due to 0 based indexing
+		int randomRow = this.rand.nextInt(ROW_COUNT);
+		
+		// Choose a random number 0 and (column count) - 1, due to 0 based indexing
+		int randomCol = this.rand.nextInt(COLUMN_COUNT);
+		
+		// Create a new JLabel, which will contain the image
+		JLabel image = new JLabel();
+		image.setIcon(new ImageIcon("img/apple.png"));
+		
+		// Add the JLabel to the cell
+		this.grid[randomCol][randomRow].add(image);
+	}
+	private void removeApple() {
+		
 	}
 }
