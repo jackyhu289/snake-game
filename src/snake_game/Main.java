@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 // The Main class will use the functions of JFrame
-public class Application extends JFrame implements KeyListener, ActionListener {
+public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	// Declare the game title. It will show up as the window title
 	private final String GAME_TITLE = "Snake game";
@@ -22,7 +22,7 @@ public class Application extends JFrame implements KeyListener, ActionListener {
 	// Declare the board the player will be using
 	private Board board;
 	
-	public Application() {
+	public Main() {
 		// Initialize and display the user interface
 		this.board = new Board();
 		
@@ -67,7 +67,7 @@ public class Application extends JFrame implements KeyListener, ActionListener {
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
-			Application ex = new Application();
+			Main ex = new Main();
 			ex.setVisible(true);
 		});
 	}
