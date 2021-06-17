@@ -10,7 +10,6 @@ import java.awt.GridLayout;
 import java.awt.Graphics;
 import java.awt.Color;
 
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -30,6 +29,10 @@ public class Board extends JPanel {
 	// Constant variables
 	private JPanel[][] grid;
 	private boolean[][] lavaTiles;
+	
+	// Declare the possible powerups
+	private PowerUp powerUps[];
+	
 	boolean inGame = true;
 	
 	// Store the location of the randomly generated apple
@@ -38,10 +41,7 @@ public class Board extends JPanel {
 	
 	// Count the number of apples the player collected
 	private int applesCollected = 0;
-	
-	// We will use this to verify the apple was collected before time ran out
-	private boolean appleCollected;
-	
+		
 	public final int BOARD_WIDTH = 600;
 	public final int BOARD_HEIGHT = 600;
 	
@@ -64,10 +64,14 @@ public class Board extends JPanel {
 	// Random number generation
 	private Random rand;
 	
+	private Timer currentTimer;
+	
+	public int timeLimitConstant = 500;
+	
 	public Board() {
 		this.grid = new JPanel[COLUMN_COUNT][ROW_COUNT];
 		this.lavaTiles = new boolean[COLUMN_COUNT][ROW_COUNT];
-		
+				
 		this.snake = new Snake();
 		this.rand = new Random();
 		
@@ -82,11 +86,11 @@ public class Board extends JPanel {
 		// Display the snake
 		this.displaySnake();
 		
-		// Generate the apple
-		this.placeApple(0, 5);
-		
 		// Generate the lava tiles
 		this.generateLavaTiles(15);
+		
+		// Generate the apple
+		this.placeApple(0, 5);
 	}
 	
 	// This function will allow for all of the drawing and display
@@ -180,10 +184,10 @@ public class Board extends JPanel {
 			// Increment the total number of apples the player caught
 			++this.applesCollected;
 			
+			this.currentTimer.stop();
+			
 			// Generate a new apple
 			this.placeApple(headCol, headRow);
-			
-			this.appleCollected = true;
 			
 			return;
 		}
@@ -195,33 +199,47 @@ public class Board extends JPanel {
 		this.snake.increaseSnakeLength();
 	}
 	
+	// This function places an apple in a random tile
 	private void placeApple(int headCol, int headRow) {
+		// Generate a random column and random row to place the apple in
+		int randomCol;
+		int randomRow;
 		do {
 			// Select a random tile to place the apple in
 			// Choose a random number between 0 and (row count) - 1, due to 0 based indexing
-			this.apple_col = this.rand.nextInt(COLUMN_COUNT);
+			randomCol = this.rand.nextInt(COLUMN_COUNT);
 			
 			// Choose a random number 0 and (column count) - 1, due to 0 based indexing
-			this.apple_row = this.rand.nextInt(ROW_COUNT);
+			randomRow = this.rand.nextInt(ROW_COUNT);
 			
-		} while (this.lavaTiles[this.apple_col][this.apple_row]); // verify the apple is not on a lava tile
+		} while (this.lavaTiles[randomCol][randomRow]); // verify the apple is not on a lava tile
 		
+		// Set the apple column and apple row so we can access it from other functions
+		this.apple_col = randomCol;
+		this.apple_row = randomRow;
+		
+		/* 
+		 * We will calculate how much time the player has to get the generated apple,
+		 * depending on the location of the snake head and the location of the newly
+		 * generated apple
+		*/
 		// Distance formula
 		double distance = Math.sqrt(Math.pow(this.apple_col - headCol, 2) + Math.pow(this.apple_row - headRow, 2));
 		
-		int timeLimit = (int)(distance*372.2);
-		
+		// The time limit equation formula
+		int timeLimit = (int)(distance*this.timeLimitConstant);
+				
 		// The player has a time limit to collect the apple, depending on the distance
 		ActionListener taskPerformer = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (appleCollected == false) declareLoss();
+				declareLoss();
 			}
 		};
 		Timer timer = new Timer(timeLimit, taskPerformer);
 		timer.setRepeats(false);
+		this.currentTimer = timer;
 		timer.start();
-		this.appleCollected = false;
 
 		// Create a new JLabel, which will contain the image
 		JLabel image = new JLabel();
@@ -232,6 +250,11 @@ public class Board extends JPanel {
 		// Add the JLabel to the tile
 		this.grid[this.apple_col][this.apple_row].add(image);
 	}
+	// This function places a random powerup in a random tile
+	private void placePowerup() {
+		
+	}
+	
 	// This function randomly generates lava tiles on places the snake will have to avoid
 	private void generateLavaTiles(int amount) {
 		for (int i = 0; i < amount; ++i) {
