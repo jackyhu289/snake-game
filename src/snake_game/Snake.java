@@ -19,10 +19,13 @@ public class Snake {
 	
 	// This constructor sets the default variable values
 	public Snake() {
+		// Initialize the linked list of the snake body
 		this.snakeBody = new LinkedList<>();
+		
+		// The snake will be yellow by default
 		this.colour = Color.YELLOW;
 		
-		// The snake will have a length of 6 and always begin here
+		// The snake will have a length of 6 and always begin at the top left corner (facing downwards)
 		for (int row = 0; row < 6; ++row) {
 			this.snakeBody.addLast(new SnakeBodyPart(0, row));
 		}
@@ -39,6 +42,7 @@ public class Snake {
 		// Remove the end of the snake
 		this.snakeBody.removeFirst();
 
+		// Set the new position of the snake head after moving depending on the direction
 		switch(this.direction)
 		{
 			case UP:

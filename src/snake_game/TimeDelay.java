@@ -10,7 +10,7 @@ import java.lang.Math;
 // This class is a powerup
 public class TimeDelay extends PowerUp {
 	TimeDelay() {
-		this.icon = new ImageIcon("img/clock2.png");
+		this.icon = new ImageIcon("img/clock.png");
 	}
 	public void modify(Board board, Snake snake) {
 		int defaultTimeLimitConstant = board.timeLimitConstant;
@@ -27,7 +27,11 @@ public class TimeDelay extends PowerUp {
 		};
 		// The timer interprets the duration in milliseconds, which is why we multiply by 1000
 		Timer timer = new Timer(duration*1000, taskPerformer);
+		
+		// Execute the timer only once
 		timer.setRepeats(false);
+		
+		// Start the timer
 		timer.start();
 		
 		// Increase the time delay constant by 250

@@ -8,6 +8,7 @@ public class SnakeBodyPart {
 	private int row;
 	private int col;
 	
+	// Constructor will set the column and row of the snake body part
 	public SnakeBodyPart(int col, int row) {
 		this.col = col;
 		this.row = row;
