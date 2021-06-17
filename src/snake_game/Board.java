@@ -297,7 +297,7 @@ public class Board extends JPanel {
 		// Choose a random powerup
 		int index = this.rand.nextInt(2);
 		
-		this.powerUp = this.powerUps[1];
+		this.powerUp = this.powerUps[index];
 		
 		// Create a new JLabel, which will contain the image
 		JLabel image = new JLabel();
@@ -333,7 +333,7 @@ public class Board extends JPanel {
 		// Set to false to denote non lava tile
 		this.lavaTiles[col][row] = false;
 		
-		this.grid[col][row].setBackground(Color.RED);
+		this.grid[col][row].setBackground(this.gridColour);
 	}
 	
 	/*

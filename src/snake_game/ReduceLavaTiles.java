@@ -13,9 +13,6 @@ public class ReduceLavaTiles extends PowerUp {
 		this.icon = new ImageIcon("img/ice-cube.png");
 	}
 	public void modify(Board board, Snake snake) {
-		// Reduce the total amount of lava tiles by a random amount for 10-15 seconds
-		int duration = (int)Math.floor((Math.random() * 6) + 10);
-		
 		boolean[][] lavaTiles = board.getLavaTiles();
 		
 		int lavaTilesRemovedCount = 0;

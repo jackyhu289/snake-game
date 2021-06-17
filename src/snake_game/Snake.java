@@ -1,5 +1,6 @@
 package snake_game;
 
+// We will store the snake body positions using a linked list
 import java.util.LinkedList;
 
 import java.awt.Color;
@@ -21,15 +22,12 @@ public class Snake {
 		this.snakeBody = new LinkedList<>();
 		this.colour = Color.YELLOW;
 		
-		// TESTING, MAKE SURE TO REMOVE LATER!!!!!
-		this.snakeBody.addLast(new SnakeBodyPart(0, 0));
-		this.snakeBody.addLast(new SnakeBodyPart(0, 1));
-		this.snakeBody.addLast(new SnakeBodyPart(0, 2));
-		this.snakeBody.addLast(new SnakeBodyPart(0, 3));
-		this.snakeBody.addLast(new SnakeBodyPart(0, 4));
-		this.snakeBody.addLast(new SnakeBodyPart(0, 5));
+		// The snake will have a length of 6 and always begin here
+		for (int row = 0; row < 6; ++row) {
+			this.snakeBody.addLast(new SnakeBodyPart(0, row));
+		}
 		
-		// DEFAULT
+		// The snake will begin with a default direction (downwards)
 		this.direction = Direction.DOWN;
 	}
 	

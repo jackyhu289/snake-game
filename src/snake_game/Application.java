@@ -16,12 +16,17 @@ import javax.swing.Timer;
 // The Main class will use the functions of JFrame
 public class Application extends JFrame implements KeyListener, ActionListener {
 	
+	// Declare the game title. It will show up as the window title
 	private final String GAME_TITLE = "Snake game";
+	
+	// Declare the board the player will be using
 	private Board board;
 	
 	public Application() {
 		// Initialize and display the user interface
 		this.board = new Board();
+		
+		// The JFrame will add the board for display
 		this.add(board);
 		
 		// Set the dimensions of the board display
