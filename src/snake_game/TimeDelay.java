@@ -10,15 +10,15 @@ import java.lang.Math;
 // This class is a powerup
 public class TimeDelay extends PowerUp {
 	TimeDelay() {
-		this.icon = new ImageIcon("");
+		this.icon = new ImageIcon("img/clock2.png");
 	}
 	public void modify(Board board, Snake snake) {
 		int defaultTimeLimitConstant = board.timeLimitConstant;
 		
-		// Reduce the time limit constant back to its default value after a few seconds
+		// Reduce the time limit constant back to its default value after N seconds
 		// The powerup won't last forever
-		// The duration will be N seconds, where N is a random number between 3-8
-		int duration = (int)Math.floor(Math.random()*8 + 3);
+		// The duration will be N seconds, where N is a random number between 20-25
+		int duration = (int)Math.floor(Math.random() * 6) + 20;
 		ActionListener taskPerformer = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -30,7 +30,7 @@ public class TimeDelay extends PowerUp {
 		timer.setRepeats(false);
 		timer.start();
 		
-		// Increase the time delay constant by a random number between 100-200
-		board.timeLimitConstant += ((Math.random() <= 0.5) ? 1 : 2)*100;
+		// Increase the time delay constant by 250
+		board.timeLimitConstant += 250;
 	}
 }

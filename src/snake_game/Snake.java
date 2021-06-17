@@ -72,14 +72,6 @@ public class Snake {
 		else if (keystrokeAscii == 65 || keystrokeAscii == 37) this.direction = Direction.LEFT;
 	}
 	
-	// Increases the snake length by 1
-	public void increaseSnakeLength() {
-		SnakeBodyPart secondLastBodyPart = this.snakeBody.get(1);
-		SnakeBodyPart lastBodyPart = this.snakeBody.get(0);
-		
-		
-	}
-	
 	// Getters
 	public LinkedList<SnakeBodyPart> getSnakeBody() { return this.snakeBody; }
 	public Color getColour() { return this.colour; }

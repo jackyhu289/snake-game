@@ -1,5 +1,6 @@
 package snake_game;
 
+import java.util.Collections;
 import java.util.LinkedList;
 
 // User input
@@ -22,7 +23,9 @@ import javax.swing.Timer;
 import java.util.Random;
 import java.lang.Math;
 
-// maybe use JLabel to display images
+// Used for storing high scores
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class Board extends JPanel {
 	
@@ -32,7 +35,10 @@ public class Board extends JPanel {
 	
 	// Declare the possible powerups
 	private PowerUp powerUps[];
-	
+	private int powerUpCol;
+	private int powerUpRow;
+	private SortedSet<Integer> highScores = new TreeSet<Integer>(Collections.reverseOrder());
+		
 	boolean inGame = true;
 	
 	// Store the location of the randomly generated apple
@@ -41,6 +47,7 @@ public class Board extends JPanel {
 	
 	// Count the number of apples the player collected
 	private int applesCollected = 0;
+	private int totalLavaTiles = 0;
 		
 	public final int BOARD_WIDTH = 600;
 	public final int BOARD_HEIGHT = 600;
@@ -50,13 +57,14 @@ public class Board extends JPanel {
 	public final int COLUMN_COUNT = 15;
 	
 	// Images
-	private ImageIcon appleImage;
+	private ImageIcon appleImage = new ImageIcon("img/apple.png");
 	
 	private Snake snake;
 	
 	private Color gridColour = Color.GREEN;
 	
 	private JLabel currentAppleLabel;
+	private JLabel currentPowerUpLabel;
 	
 	// User input
 	private Scanner input;
@@ -68,6 +76,8 @@ public class Board extends JPanel {
 	
 	public int timeLimitConstant = 500;
 	
+	private PowerUp powerUp;
+	
 	public Board() {
 		this.grid = new JPanel[COLUMN_COUNT][ROW_COUNT];
 		this.lavaTiles = new boolean[COLUMN_COUNT][ROW_COUNT];
@@ -75,10 +85,12 @@ public class Board extends JPanel {
 		this.snake = new Snake();
 		this.rand = new Random();
 		
-		input = new Scanner(System.in);
+		// Declare the possible powerups
+		this.powerUps = new PowerUp[3];
+		powerUps[0] = new TimeDelay();
+		powerUps[1] = new ReduceLavaTiles();
 		
-		// Load images
-		this.loadImages();
+		input = new Scanner(System.in);
 		
 		// Display the board
 		this.displayBoard();
@@ -87,21 +99,18 @@ public class Board extends JPanel {
 		this.displaySnake();
 		
 		// Generate the lava tiles
-		this.generateLavaTiles(15);
+		this.generateLavaTiles(50);
 		
 		// Generate the apple
 		this.placeApple(0, 5);
+		
+		this.placePowerup();
 	}
 	
 	// This function will allow for all of the drawing and display
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-	}
-	
-	// This function loads all of the image icons
-	private void loadImages() {
-		this.appleImage = new ImageIcon("img/apple.png");
 	}
 	
 	// This function displays the grid for the snake
@@ -192,11 +201,30 @@ public class Board extends JPanel {
 			return;
 		}
 		
-		// Check if there was a special item the snake collected
-		
-		
-		// Increase the snake length
-		this.snake.increaseSnakeLength();
+		// Check if the snake collected a powerup
+		if (this.powerUpCol == headCol && this.powerUpRow == headRow) {
+			this.powerUp.modify(this, this.snake);
+			
+			// Remove the powerup image now that the player already collected it
+			this.currentPowerUpLabel.setIcon(null);
+			
+			// Now we remove the power up location
+			this.powerUpCol = -1;
+			this.powerUpRow = -1;
+			
+			// Generate a new powerup in 30 seconds
+			ActionListener taskPerformer = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					placePowerup();
+				}
+			};
+			Timer timer = new Timer(30000, taskPerformer);
+			timer.setRepeats(false);
+			timer.start();
+			
+			return;
+		}
 	}
 	
 	// This function places an apple in a random tile
@@ -228,7 +256,8 @@ public class Board extends JPanel {
 		
 		// The time limit equation formula
 		int timeLimit = (int)(distance*this.timeLimitConstant);
-				
+		System.out.println(this.timeLimitConstant);
+		
 		// The player has a time limit to collect the apple, depending on the distance
 		ActionListener taskPerformer = new ActionListener() {
 			@Override
@@ -252,11 +281,38 @@ public class Board extends JPanel {
 	}
 	// This function places a random powerup in a random tile
 	private void placePowerup() {
+		// Generate a random column and row to place our powerup in
+		int randomCol;
+		int randomRow;
+		do {
+			// Select a random tile to place the apple in
+			// Choose a random number between 0 and (row count) - 1, due to 0 based indexing
+			randomCol = this.rand.nextInt(COLUMN_COUNT);
+			
+			// Choose a random number 0 and (column count) - 1, due to 0 based indexing
+			randomRow = this.rand.nextInt(ROW_COUNT);
+			
+		} while (this.lavaTiles[randomCol][randomRow]); // verify the powerup is not on a lava tile
 		
+		// Choose a random powerup
+		int index = this.rand.nextInt(2);
+		
+		this.powerUp = this.powerUps[1];
+		
+		// Create a new JLabel, which will contain the image
+		JLabel image = new JLabel();
+		image.setIcon(powerUp.icon);
+		
+		this.currentPowerUpLabel = image;
+		
+		this.powerUpCol = randomCol;
+		this.powerUpRow = randomRow;
+		
+		this.grid[randomCol][randomRow].add(image);
 	}
 	
 	// This function randomly generates lava tiles on places the snake will have to avoid
-	private void generateLavaTiles(int amount) {
+	public void generateLavaTiles(int amount) {
 		for (int i = 0; i < amount; ++i) {
 			// Select a random row and column
 			int randomRow = this.rand.nextInt(ROW_COUNT);
@@ -266,10 +322,18 @@ public class Board extends JPanel {
 			
 			/*
 			 * Store the tile location in the tile array.
-			 * Used for checking if the sn3ake reached a lava tile
+			 * Used for checking if the snake reached a lava tile
 			*/
 			this.lavaTiles[randomCol][randomRow] = true;
+			++this.totalLavaTiles;
 		}
+	}
+	// This function removes a single lava tile given the column and row
+	public void removeLavaTile(int col, int row) {
+		// Set to false to denote non lava tile
+		this.lavaTiles[col][row] = false;
+		
+		this.grid[col][row].setBackground(Color.RED);
 	}
 	
 	/*
@@ -281,18 +345,57 @@ public class Board extends JPanel {
 		int option;
 		
 		System.out.println("You lost the game! You have collected " + this.applesCollected + " apples");
-		System.out.println("Do you want to play again? Enter y/n");
-		option = input.nextInt();
 		
-		if (option == 'y' || option == 'Y') {
-			this.inGame = true;
-		} else {
-			System.out.println("Game ended.");
+		while (true) {
+			System.out.println("Please select an option.");
+			System.out.println("1 - Play again");
+			System.out.println("2 - View high scores");
+			System.out.println("3 - Exit");
+			
+			option = input.nextInt();
+			
+			// Append to high scores list
+			this.highScores.add(this.applesCollected);
+			int ranking = -1;
+			
+			switch(option)
+			{
+			case 1:
+				break;
+			case 2:
+				// Print out a list of all the high scores
+				int i = 1;
+				for (int highScore : this.highScores) {
+					System.out.println(i + ": " + highScore);
+					
+					// Store the ranking of the user as well
+					if (this.applesCollected == highScore) ranking = i;
+					
+					if (i == 5) break;
+					++i;
+				}
+				break;
+			case 3:
+				// End the game
+				break;
+			}
+			if (option == 1) {
+				break;
+			}
+			
+			if (ranking == -1) {
+				System.out.println("Your score is not in the top 5.");
+			} else {
+				System.out.println("Your ranking is " + ranking);
+			}
 		}
+		System.out.println();
 	}
 	
-	// This function restarts the game
-	private void restartGame() {
-		
-	}
+	// Getters
+	public int getRowCount() { return this.ROW_COUNT; }
+	public int getColumnCount() { return this.COLUMN_COUNT; }
+	public JPanel[][] getGrid() { return this.grid; }
+	public boolean[][] getLavaTiles() { return this.lavaTiles; }
+	public int getTotalLavaTiles() { return this.totalLavaTiles; }
 }
