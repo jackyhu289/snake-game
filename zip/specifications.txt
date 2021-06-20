@@ -1,0 +1,57 @@
+*************************************************************
+*	Replace the "-" dash with an "X" for each				*
+*	specification that you've integrated into your			*
+*	program.												*
+*************************************************************
+
+75% maximum:
+X Regular submission
+
+85% maximum:
+X How to play instructions
+X Win/lose state
+
+Easy Bonus (1% addition to the maximum):
+X Linked-lists
+X Recursion
+X Classes and Inheritance
+X Seek/flee AI steering behaviours
+X Scoring mechanism
+- Submit project by Wednesday June 16th 9am.
+- ________________________________
+
+Medium Bonus (2% addition to the maximum):
+X Abstract Classes and Polymorphism
+- Sprite animation
+- Rotation matrix multiplication & vectors
+- Play-again mechanism
+- Linear interpolation
+X Visual effect
+- Gravity and jumping effect
+X High score listing and ranking
+X Collision detection
+- Multiplayer
+X Power-up mechanic
+- Shooting mechanism
+- Submit project by Tuesday June 15th 9am.
+- ________________________________
+
+Hard Bonus (3% addition to the maximum):
+- Pursue/evade AI steering behaviours
+- Intro menu with four functioning buttons
+- A detailed step-by-step tutorial level
+- Particle emitter
+- Dynamic Linear 2D Physics
+- CPU Competitors
+- Submit project by Monday June 14th 9am.
+- ________________________________
+
+Very Hard Bonus (5% addition to the maximum):
+- Dynamic Rotational 2D Physics
+- Path-finding (Dijkstra, A*)
+- Tree Traversal
+- Flocking AI behaviour
+- Spline interpolation
+- Forward kinematics
+- Dynamic Raycast Lighting
+- ________________________________

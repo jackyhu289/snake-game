@@ -1,0 +1,24 @@
+In this game, the player will be controlling a snake.
+Apples are spawned in random locations, and the objective is to collect
+as many apples to obtain a high score.
+The player must also avoid lava tiles (denoted as red)
+Note that there is a time limit for each apple, depending on its distance
+from the snake head. If the time limit is reached, the player loses
+There are also powerups the player can choose to get.
+
+
+Controls (Each tap goes 1 square):
+w - Go up
+d - Go right
+s - Go down
+a - Go left
+
+Losing mechanisms:
+- Colliding to the wall/border
+- Stepping on a red tile
+- Failing to collect an apple within a time limit
+
+Powerups:
+ReduceLavaTiles - reduces the amount of lava tiles for a brief period of time
+TimeDelay - Delays the time limit of all apples for a brief period of time
+(Starting from the next collected apple)

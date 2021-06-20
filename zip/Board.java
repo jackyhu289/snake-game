@@ -1,5 +1,3 @@
-package snake_game;
-
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -96,7 +94,7 @@ public class Board extends JPanel {
 		this.rand = new Random();
 		
 		// Declare the possible powerups
-		this.powerUps = new PowerUp[2];
+		this.powerUps = new PowerUp[3];
 		powerUps[0] = new TimeDelay();
 		powerUps[1] = new ReduceLavaTiles();
 		

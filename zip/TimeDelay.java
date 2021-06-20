@@ -1,5 +1,3 @@
-package snake_game;
-
 import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
@@ -34,7 +32,7 @@ public class TimeDelay extends PowerUp {
 		// Start the timer
 		timer.start();
 		
-		// Increase the time delay constant by a factor of 1.5
-		board.timeLimitConstant *= 1.5;
+		// Increase the time delay constant by 250
+		board.timeLimitConstant += 250;
 	}
 }
